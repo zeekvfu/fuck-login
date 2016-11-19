@@ -40,9 +40,18 @@ class V2EX:
         parser = etree.HTMLParser()
         tree = etree.parse(StringIO(response.text), parser)
         elements = tree.xpath('//form[@method="post" and @action="/signin"]/table[@cellpadding="5" and @cellspacing="0" and @border="0" and @width="100%"]//tr[position()<last()]/td[2]/input')
-        user_name_key = elements[0].xpath('@name')[0]
-        password_key = elements[1].xpath('@name')[0]
-        once = elements[2].xpath('@value')[0]
+        user_name_key = None
+        l = elements[0].xpath('@name')
+        if len(l) == 1:
+            user_name_key = l[0]
+        password_key = None
+        l = elements[1].xpath('@name')
+        if len(l) == 1:
+            password_key = l[0]
+        once = None
+        l = elements[2].xpath('@value')
+        if len(l) == 1:
+            once = l[0]
         return user_name_key, password_key, once
 
 
